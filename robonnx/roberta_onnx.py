@@ -84,3 +84,14 @@ class OnnxSession(Timer):
     res = {self.labels[ranking[i]]:np.round(float(scores[ranking[i]]), 4) for i in range(scores.shape[0])}
   
     return res
+
+
+if __name__ == '__main__':
+
+  from robonnx.roberta_onnx import OnnxSession
+  
+  onx = OnnxSession('model.onnx', 'emotion')
+  fake_tweet = '@rhysdg apparently you can install all your work in one line! The robots will be taking our jobs soon. Sign the petiton at http://githubissentient.com'
+  
+  res = onx.infer(fake_tweet)
+  print(res)

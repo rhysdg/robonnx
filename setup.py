@@ -21,6 +21,7 @@ setuptools.setup(
     install_requires=['transformers==4.21.1',
                       'onnxruntime-gpu==1.12.1',
                       'gdown',
+                      'scipy'
     ],
     python_requires='>=3.7',
 )
