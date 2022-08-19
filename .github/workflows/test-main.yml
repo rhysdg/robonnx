@@ -1,0 +1,14 @@
+#Example basic CI!
+name: Robonnx CI
+on: [push]
+
+jobs:
+   Ubuntu-test:
+    runs-on: ubuntu-latest
+    steps:
+        - uses: actions/checkout@v3
+        - name: Install
+          run: python -m pip install .
+          
+        - name: Run example inference
+          run: python robonnx/roberta_onnx.py
