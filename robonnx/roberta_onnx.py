@@ -12,27 +12,42 @@ from transformers import AutoTokenizer
 from robonnx.tools import Timer
 
 class OnnxSession(Timer):
-  def __init__(self, model, task):
+  def __init__(self, model, task, verbose=False):
     super(OnnxSession, self).__init__()
 
     self.model = model
+    self.verbose = verbose
     self.task = task
     self.transformer = f"cardiffnlp/twitter-roberta-base-{task}"
 
     self.labels = self.__setup()
     self.session = self.__onnx_setup()
-    
-    #self.batch_size = batch_size
-    
+
+
   @staticmethod
-  def __onnx_setup():
+  def __preprocess(text):
+      new_text = []
+      for t in text.split(" "):
+          t = '@user' if t.startswith('@') and len(t) > 1 else t
+          t = 'http' if t.startswith('http') else t
+          new_text.append(t)
+      return " ".join(new_text)
+    
+
+  def printm(self, msg):
+    if self.verbose:
+      print(msg)
+
+
+  def __onnx_setup(self):
     session_options = onnxruntime.SessionOptions()
     session_options.graph_optimization_level = onnxruntime.GraphOptimizationLevel.ORT_ENABLE_ALL
     session = onnxruntime.InferenceSession("model.onnx", providers=["CUDAExecutionProvider"])
 
-    print(f"onnxruntime device: {onnxruntime.get_device()}\n") # output: GPU
+    self.printm(f"onnxruntime device: {onnxruntime.get_device()}\n") # output: GPU
 
     return session
+
 
   def __setup(self):
     # download label mapping
@@ -44,25 +59,16 @@ class OnnxSession(Timer):
     labels = [row[1] for row in csvreader if len(row) > 1]
 
     if not os.path.isfile(self.model):
-      print('\nNo model available. Downloading to model.onnx')
+      self.printm('\nNo model available. Downloading to model.onnx')
       gdown.download(id='1m6JQyVKh3QobLeBpUI5BXWbMrHS1l3cN')
 
     self.tokenizer = AutoTokenizer.from_pretrained(self.transformer)
     
-    print(f'Using labels: {labels}, for task: {self.task} detection\n')
+    self.printm(f'Using labels: {labels}, for task: {self.task} detection\n')
     
     return labels
 
-  @staticmethod
-  def __preprocess(text):
-      new_text = []
-      for t in text.split(" "):
-          t = '@user' if t.startswith('@') and len(t) > 1 else t
-          t = 'http' if t.startswith('http') else t
-          new_text.append(t)
-      return " ".join(new_text)
-
-
+  
   def infer(self, text, warmup=200, bench=False):
 
     #preprocessing
@@ -87,10 +93,8 @@ class OnnxSession(Timer):
 
 
 if __name__ == '__main__':
-
-  from robonnx.roberta_onnx import OnnxSession
   
-  onx = OnnxSession('model.onnx', 'emotion')
+  onx = OnnxSession('model.onnx', 'emotion', verbose=False)
   fake_tweet = '@rhysdg apparently you can install all your work in one line! The robots will be taking our jobs soon. Sign the petiton at http://githubissentient.com'
   
   res = onx.infer(fake_tweet)
