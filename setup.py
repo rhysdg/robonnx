@@ -23,5 +23,6 @@ setuptools.setup(
                       'gdown',
                       'scipy'
     ],
+    tests_require=['pytest'],
     python_requires='>=3.7',
 )
