@@ -1,6 +1,10 @@
 #Example basic CI!
 name: Robonnx CI
-on: [push]
+
+on:
+  push:
+    branches:
+    - main
 
 jobs:
    Ubuntu-test:
