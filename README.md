@@ -80,7 +80,7 @@ Distributed under the Apache License. See `LICENSE` for more information.
 <!-- CONTACT -->
 ## Contact
 
-- Project Link: [https://github.com/WeCloudData-Academy/mlops-tground-robonnx](https://github.com/rhysdg/mlops-tground-robonnx)
+- Project Link: [https://github.com/rhysdg/robonnx](https://github.com/rhysdg/mlops-tground-robonnx)
 - Email: [Rhys](rhysgwilliams@gmail.com) 
 
 <!-- MARKDOWN LINKS & IMAGES -->
@@ -88,5 +88,3 @@ Distributed under the Apache License. See `LICENSE` for more information.
 [contributors-shield]: https://img.shields.io/badge/contributors-2-orange
 [license-shield]: https://img.shields.io/badge/License-Apache-blue
 [license-url]: LICENSE.txt
-[linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=flat-square&logo=linkedin&colorB=555
-[linkedin-url]: 
