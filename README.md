@@ -1,7 +1,6 @@
 <!-- PROJECT SHIELDS -->
-[![Contributors][contributors-shield]](https://github.com/WeCloudData-Academy/mlops-tground-robonnx)
+[![Contributors][contributors-shield]](https://github.com/rhysdg/robonnx)
 [![Apache][license-shield]][license-url]
-[![LinkedIn][linkedin-shield]][linkedin-url]
 
 
 <!-- PROJECT LOGO -->
