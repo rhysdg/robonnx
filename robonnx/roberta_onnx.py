@@ -42,9 +42,13 @@ class OnnxSession(Timer):
   def __onnx_setup(self):
     session_options = onnxruntime.SessionOptions()
     session_options.graph_optimization_level = onnxruntime.GraphOptimizationLevel.ORT_ENABLE_ALL
-    session = onnxruntime.InferenceSession("model.onnx", providers=["CUDAExecutionProvider"])
 
-    self.printm(f"onnxruntime device: {onnxruntime.get_device()}\n") # output: GPU
+    try:
+      session = onnxruntime.InferenceSession("model.onnx", providers=["CUDAExecutionProvider"])
+    except RuntimeError:
+      session = onnxruntime.InferenceSession("model.onnx", providers=["CPUExecutionProvider"])
+
+    self.printm(f"onnxruntime device: {onnxruntime.get_device()}\n")
 
     return session
 
